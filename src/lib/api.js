@@ -50,3 +50,20 @@ export async function handleBookingSubmit(formData) {
 
     // এখানে MongoDB insert করবে
 }
+
+
+// my-booked-sessions
+
+
+export const MyBookedtutors = async () => {
+
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    const UserId = session.user.id;
+    const BookedTutorid = await fetch(`http://localhost:8080/my-booked-sessions/${UserId}`);
+    const resBookedTutorid = await BookedTutorid.json();
+    return resBookedTutorid;
+
+}
