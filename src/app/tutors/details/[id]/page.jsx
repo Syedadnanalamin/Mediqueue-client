@@ -1,10 +1,21 @@
-import { specificTutor } from '@/lib/api';
-import React from 'react';
+
+import { handleBookingSubmit, specificTutor } from '@/lib/api';
 import Image from "next/image";
+import { Envelope } from "@gravity-ui/icons";
+import { Button, Input, Label, Modal, Surface, TextField } from "@heroui/react";
+import { authClient } from '@/lib/auth-client';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+
 const Detailpage = async ({ params }) => {
     const { id } = await params;
     const specificTutorDetails = await specificTutor(id);
     const tutor = specificTutorDetails[0];
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+
     return (
         <div className="max-w-7xl mx-auto px-4 py-10">
 
@@ -153,9 +164,56 @@ const Detailpage = async ({ params }) => {
 
                         <div className="divider"></div>
 
-                        <button className="btn btn-primary w-full">
-                            Book Session
-                        </button>
+                        {/* modal */}
+                        <Modal>
+                            <Button variant="secondary">Book session</Button>
+                            <Modal.Backdrop>
+                                <Modal.Container placement="auto">
+                                    <Modal.Dialog className="sm:max-w-md">
+                                        <Modal.CloseTrigger />
+                                        <Modal.Header>
+
+                                            <Modal.Heading>Tutor Booking Form</Modal.Heading>
+
+                                        </Modal.Header>
+                                        <Modal.Body className="p-6">
+                                            <Surface variant="default">
+                                                <form className="flex flex-col gap-4" action={handleBookingSubmit}>
+                                                    <TextField className="w-full" type="text" variant="secondary">
+                                                        <Label>Name</Label>
+                                                        <Input placeholder="Enter your name" name="name" />
+                                                    </TextField>
+                                                    <TextField className="w-full" type="tel" variant="secondary">
+                                                        <Label>Phone</Label>
+                                                        <Input placeholder="Enter your phone number" name="phone" />
+                                                    </TextField>
+                                                    <TextField className="w-full" type="email" variant="secondary">
+                                                        <Label>Email</Label>
+                                                        <Input placeholder="Enter your email" value={session?.user.email} name="email" />
+                                                    </TextField>
+
+                                                    <TextField className="w-full" variant="secondary">
+                                                        <Label>Tutor Id</Label>
+                                                        <Input placeholder="Enter tutor id" value={tutor?._id} name="tutorId" />
+                                                    </TextField>
+                                                    <TextField className="w-full" variant="secondary">
+                                                        <Label>Tutor Name</Label>
+                                                        <Input placeholder="Enter tutor name" value={tutor?.name} name="tutorName" />
+                                                    </TextField>
+                                                    <Modal.Footer>
+                                                        <Button slot="close" variant="secondary">
+                                                            Cancel
+                                                        </Button>
+                                                        <Button slot="close" type='submit'>Submit request</Button>
+                                                    </Modal.Footer>
+                                                </form>
+                                            </Surface>
+                                        </Modal.Body>
+
+                                    </Modal.Dialog>
+                                </Modal.Container>
+                            </Modal.Backdrop>
+                        </Modal>
 
                     </div>
 
