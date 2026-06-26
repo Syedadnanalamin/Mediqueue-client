@@ -11,5 +11,7 @@ export const AlltutorsData = async () => {
 
 export const specificTutor = async (id) => {
 
+
     const res = await fetch(`http://localhost:8080/tutors/details/${id}`);
+    return res.json();
 }

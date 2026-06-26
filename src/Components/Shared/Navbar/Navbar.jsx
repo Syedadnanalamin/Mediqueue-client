@@ -1,17 +1,35 @@
+'use client'
+import { authClient } from '@/lib/auth-client';
 import Link from 'next/link';
 import React from 'react';
 
 const Navbar = () => {
+    const { data: session } = authClient.useSession();
+
+
 
     const navLinks = (
         <>
+
+
             <li><Link href="/">Home</Link></li>
             <li><Link href="/tutors">Tutors</Link></li>
-            <li><Link href="/add-tutor">Add Tutor</Link></li>
-            <li><Link href="/my-tutors">My Tutors</Link></li>
-            <li><Link href="/my-booked-sessions">My Booked Sessions</Link></li>
+
+            {session && (
+                <>
+                    <li><Link href="/add-tutor">Add Tutor</Link></li>
+                    <li><Link href="/my-tutors">My Tutors</Link></li>
+                    <li><Link href="/my-booked-sessions">My Booked Sessions</Link></li>
+                </>
+            )}
         </>
     );
+
+
+    const clearSession = async () => {
+        await authClient.signOut();
+
+    }
     return (
         <div className='max-h-[20x]'>
             <div className="navbar bg-base-100 shadow-sm">
@@ -34,7 +52,18 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Button</a>
+
+                    {session ? (
+                        <>
+                            <a className="btn" onClick={() => clearSession()}>Logout</a>
+                        </>
+                    ) : (
+                        <>
+                            <button className="btn"><Link href={"/login"}>Loging</Link></button>
+                            <button className="btn btn-accent"><Link href={"/signup"}>Signup</Link></button>
+                        </>
+                    )}
+
                 </div>
             </div>
         </div>

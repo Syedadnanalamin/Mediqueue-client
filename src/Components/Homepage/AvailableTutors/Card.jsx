@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const Card = ({ tutor }) => {
@@ -16,7 +17,7 @@ const Card = ({ tutor }) => {
 
                     <div className="card-actions ">
                         <p><span className='font-bold mr-2'>Hourly Fee:</span>{`${tutor.hourlyFee}$`}</p>
-                        <button className="btn btn-primary">Book Session</button>
+                        <button className="btn btn-primary"><Link href={`/tutors/details/${tutor._id}`}>Book Session</Link> </button>
                     </div>
                 </div>
             </div>
