@@ -5,6 +5,11 @@ import { authClient } from "@/lib/auth-client";
 import { Button } from "@heroui/react";
 import { headers } from "next/headers";
 
+
+export const metadata = {
+    title: "My-Booked-Session",
+};
+
 const booked_sessions = async () => {
     const MyBookedtutorsDetails = await MyBookedtutors();
 

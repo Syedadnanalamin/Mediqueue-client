@@ -10,6 +10,7 @@ export default function RegisterPage() {
         formState: { errors },
     } = useForm();
 
+
     const onSubmit = async (data) => {
 
         const { data: res, error } = await authClient.signUp.email({

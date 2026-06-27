@@ -1,4 +1,7 @@
 // src/app/my-tutors/[id]/page.jsx
+export const metadata = {
+    title: "My Tutors",
+};
 
 const MyTutors = async ({ params }) => {
     const { id } = await params;
