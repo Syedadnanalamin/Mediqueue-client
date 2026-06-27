@@ -1,5 +1,5 @@
 'use client';
-
+import { usePathname } from "next/navigation";
 import { authClient } from '@/lib/auth-client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,6 +10,9 @@ const Navbar = () => {
     const { data: session } = authClient.useSession();
     const router = useRouter();
 
+    const pathname = usePathname();
+    const activeClass = "text-primary font-bold";
+
     const clearSession = async () => {
         await authClient.signOut();
         router.push('/login');
@@ -17,27 +20,78 @@ const Navbar = () => {
     };
 
     const navLinks = (
+        // <>
+        //     <li>
+        //         <Link href="/">Home</Link>
+        //     </li>
+
+        //     <li>
+        //         <Link href="/tutors">Tutors</Link>
+        //     </li>
+
+        //     {session && (
+        //         <>
+        //             <li>
+        //                 <Link href="/add-tutor">Add Tutor</Link>
+        //             </li>
+
+        //             <li>
+        //                 <Link href={`/my-tutors/${session.user.id}`}>My Tutors</Link>
+        //             </li>
+
+        //             <li>
+        //                 <Link href="/my-booked-sessions">
+        //                     My Booked Sessions
+        //                 </Link>
+        //             </li>
+        //         </>
+        //     )}
+        // </>
+
         <>
             <li>
-                <Link href="/">Home</Link>
+                <Link
+                    href="/"
+                    className={pathname === "/" ? activeClass : ""}
+                >
+                    Home
+                </Link>
             </li>
 
             <li>
-                <Link href="/tutors">Tutors</Link>
+                <Link
+                    href="/tutors"
+                    className={pathname.startsWith("/tutors") ? activeClass : ""}
+                >
+                    Tutors
+                </Link>
             </li>
 
             {session && (
                 <>
                     <li>
-                        <Link href="/add-tutor">Add Tutor</Link>
+                        <Link
+                            href="/add-tutor"
+                            className={pathname === "/add-tutor" ? activeClass : ""}
+                        >
+                            Add Tutor
+                        </Link>
                     </li>
 
                     <li>
-                        <Link href="/my-tutors">My Tutors</Link>
+                        <Link
+                            href={`/my-tutors/${session.user.id}`}
+                            className={pathname.startsWith("/my-tutors") ? activeClass : ""}
+                        >
+                            My Tutors
+                        </Link>
                     </li>
 
                     <li>
-                        <Link href="/my-booked-sessions">
+                        <Link
+                            href="/my-booked-sessions"
+                            className={pathname.startsWith("/my-booked-sessions") ? activeClass : ""}
+                        >
                             My Booked Sessions
                         </Link>
                     </li>
@@ -85,8 +139,8 @@ const Navbar = () => {
                         <Image
                             src="/assets/logo.png"
                             alt="TutorBook Logo"
-                            width={150}
-                            height={150}
+                            width={200}
+                            height={200}
                         />
 
                     </Link>

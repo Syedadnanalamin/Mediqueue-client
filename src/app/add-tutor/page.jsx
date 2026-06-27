@@ -1,8 +1,14 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { useForm } from "react-hook-form";
 
 const AddTutor = () => {
+    var { data: session } = authClient.useSession();
+
+    var UserId = session.user.id;
+
+
     const {
         register,
         handleSubmit,
@@ -11,6 +17,7 @@ const AddTutor = () => {
 
     const onSubmit = async (data) => {
         const tutorData = {
+            UserId,
             tutorName: data.tutorName,
             photo: data.photo,
             subject: data.subject,
