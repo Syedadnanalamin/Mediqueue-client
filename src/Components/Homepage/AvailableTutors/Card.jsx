@@ -7,7 +7,11 @@ const Card = ({ tutor }) => {
         <div>
             <div className="card bg-base-100   shadow-sm">
                 <figure>
-                    <Image src={tutor.photo} alt={tutor.name} height={200} width={400}></Image>
+                    <Image src={tutor.photo}
+                        alt={tutor.name}
+                        width={400}
+                        height={220}
+                        className="w-full h-56 object-cover"></Image>
                 </figure>
                 <div className="card-body">
                     <h2 className="card-title">{tutor.name}</h2>
