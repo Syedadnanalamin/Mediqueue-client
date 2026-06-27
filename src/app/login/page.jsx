@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 
 export default function LoginPage() {
 
-    console.log(3)
+    // console.log(3)
 
     const [Error, setError] = useState("");
     const {
