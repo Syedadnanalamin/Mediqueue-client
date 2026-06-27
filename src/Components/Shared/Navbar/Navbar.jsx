@@ -1,6 +1,7 @@
 'use client';
 
 import { authClient } from '@/lib/auth-client';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -81,7 +82,13 @@ const Navbar = () => {
                     </div>
 
                     <Link href="/" className="btn btn-ghost text-xl">
-                        TutorBook
+                        <Image
+                            src="/assets/logo.png"
+                            alt="TutorBook Logo"
+                            width={150}
+                            height={150}
+                        />
+
                     </Link>
                 </div>
 
