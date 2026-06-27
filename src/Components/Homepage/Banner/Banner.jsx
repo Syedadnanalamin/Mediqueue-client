@@ -2,7 +2,7 @@ import React from 'react';
 
 const Banner = () => {
     return (
-        <div className='h-screen bg-[#48a9a6]'>
+        <div className='h-screen '>
             <div className='container mx-auto pt-2'>
 
                 <div className="carousel w-full h-[550px] rounded-2xl overflow-hidden">

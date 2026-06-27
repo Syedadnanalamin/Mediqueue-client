@@ -1,3 +1,4 @@
+import DeleteTutor from "@/Components/DeleteTutor/DeleteTutor";
 import { MyBookedtutors } from "@/lib/api";
 import { auth } from "@/lib/auth";
 import { authClient } from "@/lib/auth-client";
@@ -11,6 +12,7 @@ const booked_sessions = async () => {
         headers: await headers(),
     });
     const userName = session.user.name;
+
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-10">
@@ -27,7 +29,7 @@ const booked_sessions = async () => {
                     </h2>
 
                     <p className="text-gray-500 mt-3">
-                        You haven't booked any tutoring session yet.
+                        You havent booked any tutoring session yet.
                     </p>
 
                 </div>
@@ -82,12 +84,7 @@ const booked_sessions = async () => {
 
                                     <td>
 
-                                        <Button
-                                            color="danger"
-                                            size="sm"
-                                        >
-                                            Cancel
-                                        </Button>
+                                        <DeleteTutor tutorId={booking._id}></DeleteTutor>
 
                                     </td>
 
