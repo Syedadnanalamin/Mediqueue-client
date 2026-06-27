@@ -1,5 +1,6 @@
 "use client";
 
+import Gbutton from "@/Components/GoogleButton/Gbutton";
 import { authClient } from "@/lib/auth-client";
 import { error } from "better-auth/api";
 import { useState } from "react";
@@ -108,6 +109,8 @@ export default function LoginPage() {
                         </button>
 
                     </form>
+
+                    <Gbutton></Gbutton>
 
                 </div>
 

@@ -25,6 +25,6 @@ export const config = {
             "/add-tutor/:path*",
             "/my-tutors/:path*",
             "/my-booked-sessions/:path*",
-            "/http://localhost:3000/tutors/details/:path*"
+            "/tutors/details/:path*"
         ],
 }

@@ -8,7 +8,6 @@ const AddTutor = () => {
 
     var UserId = session.user.id;
 
-
     const {
         register,
         handleSubmit,
