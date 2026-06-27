@@ -1,8 +1,28 @@
+"use client"
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { toast } from "react-hot-toast";
+import { useState } from "react";
 
 const Card = ({ tutor }) => {
+
+    const handleBookingToast = () => {
+        toast.success("Opening tutor details...", {
+            duration: 1500,
+            icon: "📚",
+            style: {
+                borderRadius: "14px",
+                background: "#1f2937",
+                color: "#fff",
+                padding: "14px 18px",
+                fontWeight: "500",
+                boxShadow: "0 10px 25px rgba(0,0,0,.25)",
+            },
+        });
+    };
+
+
     return (
         <div>
             <div className="card bg-base-100 border border-gray-200 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 rounded-2xl overflow-hidden">
@@ -56,6 +76,7 @@ const Card = ({ tutor }) => {
 
                         <Link
                             href={`/tutors/details/${tutor._id}`}
+                            onClick={handleBookingToast}
                             className="btn btn-primary rounded-xl px-6"
                         >
                             Book Session

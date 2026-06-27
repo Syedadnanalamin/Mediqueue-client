@@ -19,6 +19,7 @@ const Navbar = () => {
         router.refresh();
     };
 
+
     const navLinks = (
         // <>
         //     <li>
@@ -156,12 +157,17 @@ const Navbar = () => {
                 {/* Right */}
                 <div className="navbar-end gap-2">
                     {session ? (
-                        <button
-                            onClick={clearSession}
-                            className="btn btn-error text-white"
-                        >
-                            Logout
-                        </button>
+                        <>
+                            <p>{`Hello,${session.user.name}`}</p>
+                            <button
+                                onClick={clearSession}
+                                className="btn btn-error text-white"
+                            >
+                                Logout
+                            </button>
+
+                            <Image src={session.user.image} alt="profile" height={40} width={40} className="rounded-full"></Image>
+                        </>
                     ) : (
                         <>
                             <Link href="/login" className="btn">
