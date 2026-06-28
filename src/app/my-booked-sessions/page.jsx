@@ -7,7 +7,7 @@ import { headers } from "next/headers";
 
 
 export const metadata = {
-    title: "My-Booked-Session",
+    title: "My Booked Sessions",
 };
 
 const booked_sessions = async () => {

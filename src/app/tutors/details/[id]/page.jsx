@@ -7,6 +7,15 @@ import { authClient } from '@/lib/auth-client';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 
+export async function generateMetadata({ params }) {
+    const { id } = await params;
+    const specificTutorDetails = await specificTutor(id);
+    const tutor = specificTutorDetails[0];
+    return {
+        title: tutor ? `${tutor.name} Details` : "Tutor Details",
+    };
+}
+
 const Detailpage = async ({ params }) => {
     const { id } = await params;
     const specificTutorDetails = await specificTutor(id);
@@ -14,6 +23,14 @@ const Detailpage = async ({ params }) => {
     const session = await auth.api.getSession({
         headers: await headers(),
     });
+
+    const currentDate = new Date();
+    const sessionStartDate = new Date(tutor.sessionStartDate);
+    currentDate.setHours(0, 0, 0, 0);
+    sessionStartDate.setHours(0, 0, 0, 0);
+
+    const isBeforeSessionStartDate = false;
+    const isFullyBooked = Number(tutor.totalSlot) <= 0;
 
 
     return (
@@ -369,137 +386,150 @@ const Detailpage = async ({ params }) => {
 
                         {/* Modal */}
 
-                        <Modal>
-                            <Button
-                                variant="primary"
-                                className="w-full rounded-xl py-3 text-lg font-semibold shadow-lg hover:scale-[1.02] transition"
-                            >
-                                Book Session
-                            </Button>
+                        {isBeforeSessionStartDate && (
+                            <div className="alert alert-warning rounded-xl py-3 text-center font-semibold text-yellow-800 bg-yellow-100 border border-yellow-200 mb-4 text-xs md:text-sm">
+                                Booking is not available yet for this tutor
+                            </div>
+                        )}
 
-                            <Modal.Backdrop>
+                        {isFullyBooked ? (
+                            <div className="alert alert-error rounded-xl py-3 text-center font-semibold text-red-600 bg-red-100 border border-red-200">
+                                No available slots left.
+                            </div>
+                        ) : (
+                            <Modal>
+                                <Button
+                                    variant="primary"
+                                    disabled={isBeforeSessionStartDate}
+                                    className="w-full rounded-xl py-3 text-lg font-semibold shadow-lg hover:scale-[1.02] transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    Book Session
+                                </Button>
 
-                                <Modal.Container placement="auto">
+                                <Modal.Backdrop>
 
-                                    <Modal.Dialog className="sm:max-w-md rounded-2xl">
+                                    <Modal.Container placement="auto">
 
-                                        <Modal.CloseTrigger />
+                                        <Modal.Dialog className="sm:max-w-md rounded-2xl">
 
-                                        <Modal.Header>
+                                            <Modal.CloseTrigger />
 
-                                            <Modal.Heading className="text-2xl font-bold">
-                                                Tutor Booking Form
-                                            </Modal.Heading>
+                                            <Modal.Header>
 
-                                        </Modal.Header>
+                                                <Modal.Heading className="text-2xl font-bold">
+                                                    Tutor Booking Form
+                                                </Modal.Heading>
 
-                                        <Modal.Body className="p-6">
+                                            </Modal.Header>
 
-                                            <Surface
-                                                variant="default"
-                                                className="rounded-2xl"
-                                            >
+                                            <Modal.Body className="p-6">
 
-                                                <form
-                                                    className="flex flex-col gap-5"
-                                                    action={handleBookingSubmit}
+                                                <Surface
+                                                    variant="default"
+                                                    className="rounded-2xl"
                                                 >
 
-                                                    <TextField
-                                                        className="w-full"
-                                                        variant="secondary"
+                                                    <form
+                                                        className="flex flex-col gap-5"
+                                                        action={handleBookingSubmit}
                                                     >
-                                                        <Label>Name</Label>
-                                                        <Input
-                                                            placeholder="Enter your name"
-                                                            name="name"
-                                                            className="rounded-xl"
-                                                        />
-                                                    </TextField>
 
-                                                    <TextField
-                                                        className="w-full"
-                                                        type="tel"
-                                                        variant="secondary"
-                                                    >
-                                                        <Label>Phone</Label>
-                                                        <Input
-                                                            placeholder="Enter your phone number"
-                                                            name="phone"
-                                                            className="rounded-xl"
-                                                        />
-                                                    </TextField>
-
-                                                    <TextField
-                                                        className="w-full"
-                                                        type="email"
-                                                        variant="secondary"
-                                                    >
-                                                        <Label>Email</Label>
-                                                        <Input
-                                                            value={session?.user.email}
-                                                            name="email"
-                                                            className="rounded-xl"
-                                                        />
-                                                    </TextField>
-
-                                                    <TextField
-                                                        className="w-full"
-                                                        variant="secondary"
-                                                    >
-                                                        <Label>Tutor Id</Label>
-                                                        <Input
-                                                            value={tutor?._id}
-                                                            name="tutorId"
-                                                            className="rounded-xl"
-                                                        />
-                                                    </TextField>
-
-                                                    <TextField
-                                                        className="w-full"
-                                                        variant="secondary"
-                                                    >
-                                                        <Label>Tutor Name</Label>
-                                                        <Input
-                                                            value={tutor?.name}
-                                                            name="tutorName"
-                                                            className="rounded-xl"
-                                                        />
-                                                    </TextField>
-
-                                                    <Modal.Footer className="mt-3 flex justify-end gap-3">
-
-                                                        <Button
-                                                            slot="close"
+                                                        <TextField
+                                                            className="w-full"
                                                             variant="secondary"
-                                                            className="rounded-xl"
                                                         >
-                                                            Cancel
-                                                        </Button>
+                                                            <Label>Name</Label>
+                                                            <Input
+                                                                placeholder="Enter your name"
+                                                                name="name"
+                                                                className="rounded-xl"
+                                                            />
+                                                        </TextField>
 
-                                                        <Button
-                                                            slot="close"
-                                                            type="submit"
-                                                            className="rounded-xl"
+                                                        <TextField
+                                                            className="w-full"
+                                                            type="tel"
+                                                            variant="secondary"
                                                         >
-                                                            Submit Request
-                                                        </Button>
+                                                            <Label>Phone</Label>
+                                                            <Input
+                                                                placeholder="Enter your phone number"
+                                                                name="phone"
+                                                                className="rounded-xl"
+                                                            />
+                                                        </TextField>
 
-                                                    </Modal.Footer>
+                                                        <TextField
+                                                            className="w-full"
+                                                            type="email"
+                                                            variant="secondary"
+                                                        >
+                                                            <Label>Email</Label>
+                                                            <Input
+                                                                value={session?.user.email}
+                                                                name="email"
+                                                                className="rounded-xl"
+                                                            />
+                                                        </TextField>
 
-                                                </form>
+                                                        <TextField
+                                                            className="w-full"
+                                                            variant="secondary"
+                                                        >
+                                                            <Label>Tutor Id</Label>
+                                                            <Input
+                                                                value={tutor?._id}
+                                                                name="tutorId"
+                                                                className="rounded-xl"
+                                                            />
+                                                        </TextField>
 
-                                            </Surface>
+                                                        <TextField
+                                                            className="w-full"
+                                                            variant="secondary"
+                                                        >
+                                                            <Label>Tutor Name</Label>
+                                                            <Input
+                                                                value={tutor?.name}
+                                                                name="tutorName"
+                                                                className="rounded-xl"
+                                                            />
+                                                        </TextField>
 
-                                        </Modal.Body>
+                                                        <Modal.Footer className="mt-3 flex justify-end gap-3">
 
-                                    </Modal.Dialog>
+                                                            <Button
+                                                                slot="close"
+                                                                variant="secondary"
+                                                                className="rounded-xl"
+                                                            >
+                                                                Cancel
+                                                            </Button>
 
-                                </Modal.Container>
+                                                            <Button
+                                                                slot="close"
+                                                                type="submit"
+                                                                className="rounded-xl"
+                                                            >
+                                                                Submit Request
+                                                            </Button>
 
-                            </Modal.Backdrop>
+                                                        </Modal.Footer>
 
-                        </Modal>
+                                                    </form>
+
+                                                </Surface>
+
+                                            </Modal.Body>
+
+                                        </Modal.Dialog>
+
+                                    </Modal.Container>
+
+                                </Modal.Backdrop>
+
+                            </Modal>
+                        )}
 
                     </div>
 

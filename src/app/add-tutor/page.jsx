@@ -2,6 +2,7 @@
 
 import { authClient } from "@/lib/auth-client";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 const AddTutor = () => {
     var { data: session } = authClient.useSession();
@@ -34,7 +35,7 @@ const AddTutor = () => {
         console.log("form data is", data);
 
         try {
-            const res = await fetch("${process.env.NEXT_PUBLIC_SERVER_URL}/add-tutor", {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/add-tutor`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,7 +48,7 @@ const AddTutor = () => {
             console.log(result);
 
             if (result.acknowledged) {
-                alert("Tutor Added Successfully");
+                toast.success("Tutor Added Successfully");
                 reset();
             }
         } catch (error) {
