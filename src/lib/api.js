@@ -3,19 +3,19 @@ import { auth } from "./auth";
 
 export const TutorsAvaiable = async () => {
 
-    const res = await fetch("http://localhost:8080/");
+    const res = await fetch(process.env.NEXT_PUBLIC_SERVER_URL);
     return res.json();
 }
 export const AlltutorsData = async () => {
 
-    const res = await fetch("http://localhost:8080/tutors");
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/tutors`);
     return res.json();
 }
 
 export const specificTutor = async (id) => {
 
 
-    const res = await fetch(`http://localhost:8080/tutors/details/${id}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/tutors/details/${id}`);
     return res.json();
 }
 
@@ -39,7 +39,7 @@ export async function handleBookingSubmit(formData) {
     }
 
 
-    const res = await fetch(`http://localhost:8080/tutors/details/${bookingData.tutorId}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/tutors/details/${bookingData.tutorId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -62,7 +62,7 @@ export const MyBookedtutors = async () => {
     });
 
     const UserId = session.user.id;
-    const BookedTutorid = await fetch(`http://localhost:8080/my-booked-sessions/${UserId}`);
+    const BookedTutorid = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-booked-sessions/${UserId}`);
     const resBookedTutorid = await BookedTutorid.json();
     return resBookedTutorid;
 

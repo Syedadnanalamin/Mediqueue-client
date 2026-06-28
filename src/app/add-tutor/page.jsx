@@ -6,7 +6,15 @@ import { useForm } from "react-hook-form";
 const AddTutor = () => {
     var { data: session } = authClient.useSession();
 
-    var UserId = session.user.id;
+    if (session) {
+        var UserId = session.user.id;
+
+    }
+    else {
+        var UserId = 1;
+    }
+
+
 
     const {
         register,
@@ -34,7 +42,7 @@ const AddTutor = () => {
         console.log("form data is", data);
 
         try {
-            const res = await fetch("http://localhost:8080/add-tutor", {
+            const res = await fetch("${process.env.NEXT_PUBLIC_SERVER_URL}/add-tutor", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

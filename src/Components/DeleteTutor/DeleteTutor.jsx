@@ -6,7 +6,7 @@ const DeleteTutor = ({ tutorId }) => {
     const MyBookedtutorsDelete = async (teacherId) => {
 
 
-        const BookedTutorDelete = await fetch(`http://localhost:8080/my-booked-sessions/${teacherId}`, {
+        const BookedTutorDelete = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-booked-sessions/${teacherId}`, {
             method: 'DELETE',
 
         });

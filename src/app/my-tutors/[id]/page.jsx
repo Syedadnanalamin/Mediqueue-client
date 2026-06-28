@@ -6,7 +6,7 @@ export const metadata = {
 const MyTutors = async ({ params }) => {
     const { id } = await params;
 
-    const res = await fetch(`http://localhost:8080/my-tutors/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-tutors/${id}`, {
         cache: "no-store",
     });
 
