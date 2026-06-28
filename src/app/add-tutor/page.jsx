@@ -5,8 +5,7 @@ import { useForm } from "react-hook-form";
 
 const AddTutor = () => {
     var { data: session } = authClient.useSession();
-
-    var UserId = session.user.id;
+    var UserId = session?.user?.id;
 
 
     const {

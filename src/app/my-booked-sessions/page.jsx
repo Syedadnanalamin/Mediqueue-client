@@ -11,7 +11,7 @@ const booked_sessions = async () => {
     const session = await auth.api.getSession({
         headers: await headers(),
     });
-    const userName = session.user.name;
+    const userName = session?.user?.name;
 
 
     return (

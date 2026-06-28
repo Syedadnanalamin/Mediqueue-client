@@ -28,7 +28,7 @@ export async function handleBookingSubmit(formData) {
         headers: await headers(),
     });
 
-    const UserId = session.user.id;
+    const UserId = session?.user?.id;
     const bookingData = {
         UserId,
         name: formData.get("name"),
@@ -61,7 +61,8 @@ export const MyBookedtutors = async () => {
         headers: await headers(),
     });
 
-    const UserId = session.user.id;
+    const UserId = session?.user?.id;
+    if (!UserId) return [];
     const BookedTutorid = await fetch(`http://localhost:8080/my-booked-sessions/${UserId}`);
     const resBookedTutorid = await BookedTutorid.json();
     return resBookedTutorid;
