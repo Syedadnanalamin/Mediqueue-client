@@ -1,9 +1,12 @@
 // src/app/my-tutors/[id]/page.jsx
+export const metadata = {
+    title: "My Tutors",
+};
 
 const MyTutors = async ({ params }) => {
     const { id } = await params;
 
-    const res = await fetch(`http://localhost:8080/my-tutors/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-tutors/${id}`, {
         cache: "no-store",
     });
 

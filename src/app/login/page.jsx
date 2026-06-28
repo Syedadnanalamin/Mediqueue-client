@@ -1,11 +1,14 @@
 "use client";
-
+import Gbutton from "@/Components/GoogleButton/Gbutton";
 import { authClient } from "@/lib/auth-client";
 import { error } from "better-auth/api";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+
 export default function LoginPage() {
+
+    console.log(5)
 
     const [Error, setError] = useState("");
     const {
@@ -108,6 +111,8 @@ export default function LoginPage() {
                         </button>
 
                     </form>
+
+                    <Gbutton></Gbutton>
 
                 </div>
 
