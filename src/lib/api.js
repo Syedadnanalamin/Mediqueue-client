@@ -47,13 +47,7 @@ export async function handleBookingSubmit(formData) {
         body: JSON.stringify(bookingData)
 
     });
-
-    // এখানে MongoDB insert করবে
 }
-
-
-// my-booked-sessions
-
 
 export const MyBookedtutors = async () => {
 
@@ -63,7 +57,9 @@ export const MyBookedtutors = async () => {
 
     const UserId = session?.user?.id;
     if (!UserId) return [];
-    const BookedTutorid = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-booked-sessions/${UserId}`);
+    const BookedTutorid = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-booked-sessions/${UserId}`, {
+        cache: 'no-store'
+    });
     const resBookedTutorid = await BookedTutorid.json();
     return resBookedTutorid;
 

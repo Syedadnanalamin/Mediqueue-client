@@ -1,18 +1,21 @@
 
 'use client'
 import { AlertDialog, Button } from "@heroui/react";
+import { useRouter } from "next/navigation";
 const DeleteTutor = ({ tutorId }) => {
+    const router = useRouter();
 
     const MyBookedtutorsDelete = async (teacherId) => {
-
-
-        const BookedTutorDelete = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-booked-sessions/${teacherId}`, {
-            method: 'DELETE',
-
-        });
-        return BookedTutorDelete.json();
-
-
+        try {
+            const BookedTutorDelete = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-booked-sessions/${teacherId}`, {
+                method: 'DELETE',
+            });
+            if (BookedTutorDelete.ok) {
+                router.refresh();
+            }
+        } catch (err) {
+            console.error(err);
+        }
     }
 
 
